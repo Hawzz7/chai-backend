@@ -2,17 +2,40 @@
 import dotenv from "dotenv" //another way to use dotenv file using import syntax to maintain consistency
 import connectDB from "./db/index.js";
 
-dotenv.config({path: '/.env'})
+dotenv.config({ path: '/.env' })
 
 
 
 
 
 connectDB()
+    .then(() => {
+        app.listen(process.env.PORT || 8000, () => { 
+          console.log(`Server is running at port: ${process.env.PORT}`);  
+        })
+    })
+    .catch((err) => {
+        console.log("MONGO db connection failed !!! ", err);
+    })
 
 
 
-/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
 //Approach-1: How to connect to DataBase
 import express from "express";
 const app = express()
