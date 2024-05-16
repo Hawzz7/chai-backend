@@ -71,6 +71,7 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 userSchema.methods.generateAccessToken = function () {//we can use async await in this middleware but generally it is not used as the function runs very quickly
     return jwt.sign(
         {
+            //payload object containing the claims you want to include in the token.
             _id: this._id,
             email: this.email,
             username: this.username,

@@ -17,7 +17,8 @@ const uploadOnCloudinary = async (localFilePath) => {
             resource_type: "auto"
         })
         //file has been uploaded successfully
-        console.log("file uploaded on cloudinary ", response.url);
+        // console.log("file uploaded on cloudinary ", response.url);
+        fs.unlinkSync(localFilePath)
         return response;
     }//upto this line the localFilePath has been uploaded to the server(localstorage) but not uploaded to cloudinary so it create some malicious file which are harmful therefore it is necessary to remove the file from server
     catch (error) {
