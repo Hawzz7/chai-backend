@@ -278,7 +278,8 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
   if(!(fullName || email)){
     throw new ApiError(400, "All fields are required")
   }
-  const user = User.findByIdAndUpdate(
+
+  const user = await User.findByIdAndUpdate(
     req.user?._id,
     {
       $set: {
@@ -286,7 +287,7 @@ const updateAccountDetails = asyncHandler(async(req, res) => {
         email: email //es5 syntax
       }      
     },
-    {new: true}
+    {new: true} //By default, findOneAndUpdate() returns the document as it was before update was applied. If you set new: true, findOneAndUpdate() will instead give you the object after update was applied.
   ).select("-password")
 
   return res
@@ -352,6 +353,28 @@ const updateUserCoverImage = asyncHandler(async(req, res) => {
   .json(
     new ApiResponse(200, user, "Cover Image updated successfully")
   )
+})
+
+const getUserChannelProfile = asyncHandler(async(req, res) => {
+  const {username} = req.params //here params is the url. We are getting the channel's username from url
+
+  if (!username?.trim()) {
+    throw new ApiError(400, "Username is missing")
+  }
+  //Now we will find the username in our database using the following querry "User.find({username})". But since we know aggregation we will use it.
+  
+  const channel =await User.aggregate([
+    {
+      $match:{
+        username: username?.toLowerCase()
+      }
+    },
+    {
+      $lookup:{
+        from:
+      }
+    }
+  ])
 })
 
 export {
